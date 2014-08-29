@@ -1,20 +1,19 @@
 --- print() replacement that will print to stdout and to file
 -- @module printlogger
 -- @usage
--- 
+--
 -- require("printlogger")
--- 
+--
 -- print.set_log_level("CUSTOM", io.open("customlevel", "wa"))
--- 
+--
 -- print(print.CUSTOM, "This will end up in the custom file")
 -- print(print.WARN, "This will end up in the warning file")
 -- print(print.DEBUG, "This will end up in the debug file")
 -- print.set_log_level(print.DEBUG, nil) -- disable the debug level
 -- print(print.DEBUG, "This will NOT be logged")
---  
+--
 -- Author: Björn Ritzl
 -- License: Apache License 2.0
--- Github: https://github.com/britzl/prettyprint
 
 local M = {
 	print = print,
@@ -45,22 +44,22 @@ local function log(...)
 	if #arg > 1 and M.levels[arg[1]] then
 		level = arg[1]
 		table.remove(arg, 1)
-	end	
-	
-	local log_level = M.levels[level]		
+	end
+
+	local log_level = M.levels[level]
 	if not log_level then
 		return
 	end
-	
+
 	local output = ""
 	for i=1,#arg do
 		output = output .. tostring(arg[i]) .. "\t"
 	end
-	
+
 	if M.stdout_enabled then
 		M.print(level, output)
 	end
-	
+
 	log_level:write(output .. "\n")
 end
 
